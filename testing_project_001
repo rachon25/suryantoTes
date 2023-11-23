@@ -1,0 +1,31 @@
+function updateKodeJenis(latestID) {
+	    var kodeJenisCurrent = "{{ $datamesin->kode_jenis }}";
+            var selectedKategori = $('#single-select-field');
+            var selectedKlasifikasi = $('#single-select-field2');
+            var tahunMesin = $('#tahun_mesin').val();
+            
+
+	var parts = kodeJenisCurrent.split(' - ');
+	var kodeKategori = parts[0]; 
+	var kodeKlasifikasi = parts[1]; 
+	var nomorUrut = parts[2]; 
+	var tahunMesin = parts[3]; 
+	$('#single-select-field').val(kodeKategori);
+	$('#single-select-field2').val(kodeKlasifikasi);
+	$('#nomor_urut_input').val(nomorUrut);
+	$('#tahun_mesin_input').val(tahunMesin);
+        var kodeJenis = kodeKategori + ' - ' + kodeKlasifikasi + ' - ' + 	nomorUrut + ' - ' + tahunMesin;
+	$('#kode_jenis').val(kodeJenis);
+
+	$.ajax({
+
+	url: "/get-latest-mesin-by-id/" + selectedKategori.val() + "/" + 	selectedKlasifikasi.val() + "/{{ $datamesin->id }}",
+                method: "GET",
+                success: function(response) {
+		console.log(response);
+	},
+	error: function(xhr, status, error) {
+                    console.error('Gagal mengambil ID terbaru: ' + error);
+                }
+            });
+}
